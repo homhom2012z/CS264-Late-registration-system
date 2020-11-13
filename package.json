@@ -1,0 +1,27 @@
+{
+  "name": "cs264_project",
+  "version": "1.0.0",
+  "description": "TU-Late-Registrations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "keywords": [],
+  "author": {
+    "name": "CS264 GROUP1"
+  },
+
+  "license": "ISC",
+  
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1"
+  },
+
+  "engines": {
+    "npm": "6.14.8",
+    "node": "12.19.0"
+  }
+}
