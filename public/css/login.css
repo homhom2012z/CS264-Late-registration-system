@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;300;400&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: montserrat;
+    box-sizing: border-box;
+}
+
+/*@font-face {
+    font-family: 'Kanit';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: local('Kanit Thin'), local('Kanit-Thin'), url(https://fonts.gstatic.com/s/kanit/v7/nKKX-Go6G5tXcr72KxaAcJxA.woff2) format('woff2');
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}*/
+
+body {
+
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    /*background-image: linear-gradient(120deg, #3498db, #8e44ad);*/
+    background-color: #FFFFFF;
+    
+}
+
+.login-form {
+    width: 472px;
+    background: #FFFFFF;
+    height: 368px;
+    padding: 10px 35px;
+    /*border-radius: 10px;*/
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    box-shadow: 2px 2px 3px 0.2px #363636;
+    /*transform: translate(-50%, -50%);*/
+}
+
+.login-form h1 {
+    font-family: 'Kanit';
+    -webkit-font-smoothing: antialiased;
+    display: block;
+    font-size: 1.25em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    /*text-align: left;
+    font-size: 1.17em;
+    margin-bottom: 20px;
+    font-weight: 500;*/
+}
+
+.txtb {
+    color: #000000; padding-left: 15px;
+    border-radius: 5px 5px 5px 5px;
+    border: solid 1px #cbc9c9; 
+    background-color: #FFFFFF;
+    position: relative;
+    margin: 20px 0;
+}
+
+.txtb:focus{
+    border-color: #33cabb;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.txtb input {
+    font-family: 'Kanit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    color: #333;
+    border: none;
+    width: 100%;
+    outline: none;
+    background: none;
+    padding: 0 5px;
+    height: 40px;
+}
+/*.txtb span::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    z-index: -1;
+    transition: .5s;
+}
+
+.txtb span::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(120deg, #3498db, #8e44ad);
+    transition: .5s;
+}*/
+
+/*.focus+span::before {
+    top: -5px;
+}
+
+.focus+span::after {
+    width: 100%;
+}*/
+
+.logbtn {
+    font-family: 'Kanit';
+    font-size: 15px;
+    /*display: block;*/
+    width: 100px;
+    height: 35px;
+    border: none;
+    /*background: linear-gradient(120deg, #3498db, #8e44ad, #3498db);*/
+    /*background: linear-gradient(120deg, #f5d93c, #f75f19, #e79820);*/
+    background-color: #e79820;
+    background-size: 200%;
+    border-radius: 5px 5px 5px 5px;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.logbtn:hover {
+    /*background-position: right;*/
+    background-color: #f75f19;
+}
+
+.bottom-text {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+.forgt-btn{
+    margin: 25px;
+    padding: 0px 27px 0px 73px;
+
+}
+.forgt-text{
+    margin: -30px;
+    padding: 0px 58px 36px 76px;
+}
+.rest-text{
+
+    padding: 47px 45px 47px 43px;
+
+}
+
+.div-2columns{
+    position: absolute;
+    left: 50%;
+    /*top: 10%;*/
+    width: 1400px;
+    height: 100%;
+    background-color: #d14f4b;
+    transform: translate(-50%);
+    /*position: absolute;
+    left: 25%;
+    right: 25%;
+    border: solid #5fe213;
+    max-width: 1000px;
+    width: 100%;
+    max-height: 1080px;
+    height: 100%;*/
+}
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    /*padding-top: 20px;*/
+  }
+  
+  .left {
+    left: 0;
+    background-color: #d14f4b;
+  }
+  
+  .right {
+    right: 0;
+    background-color: #f1f1f1;
+  }
+  
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
+
+.column {
+    /*position: absolute;*/
+    float: left;
+    width: 50%;
+    /*padding: 10px;*/
+    height: 758px;
+}
+  
+/* Clear floats after the columns */
+.row{
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 10%;
+    max-width: 1100px;
+    width: 1100px;
+    max-height: 758px;
+    height: 758px;
+    transform: translate(-50%);
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.errorContainer{
+    background: #DDAAAA;
+    padding: 2px;
+    display: none;
+
+}
+.error{
+    color: #E03D3D;
+}

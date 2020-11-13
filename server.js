@@ -15,7 +15,7 @@ var app = express();
 
 app.listen(PORT, function () { console.log(`Listening on ${PORT}`) });
 
-/*app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,14 +27,14 @@ app.use('/js', express.static(__dirname+'public/js'));
 app.use('/img', express.static(__dirname+'public/img'));
 app.use('/vendor/jquery', express.static(__dirname+'public/vendor/jquery'));
 
-app.engine('.ejs', require('ejs').renderFile);*/
+app.engine('.ejs', require('ejs').renderFile);
 
 app.get('/', function (req, res) {
-    res.json({result: "OK", data:[1,2,3,4,5]});
-    /*res.render('login', {fname: 'CS264', lName: 'GROUP1'});*/
+    /*res.json({result: "OK", data:[1,2,3,4,5]});*/
+    res.render('login', {fname: 'CS264', lName: 'GROUP1'});
 });
 
-/*app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
+app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
 
 app.get('/main', function (req, res) {res.render('main', {fname: 'CS264', lName: 'GROUP1'});})
 
@@ -219,4 +219,4 @@ const loginAuthen = (user, password)=>{
         req.end();
     });
     
-};*/
+};
