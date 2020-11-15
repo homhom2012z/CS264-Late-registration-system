@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ระบบลงทะเบียนล่าช้า</title>
+        <link rel="stylesheet" href="css/login.css" type="text/css">
+
+    </head>
+
+    <body>
+        <div class="container" style="background-color:#d14f4b; width: 100%; margin: auto; padding: 10px; height: 1080px;">
+        
+            <form action="/api" class="login-form" method="GET">
+                <h1>เข้าสู่ระบบ (นักศึกษา/บุคลากร)</h1>
+                <div class="txtb">
+                    <input type="text" id="user" name="user" placeholder="Username" value="" required>
+                </div>
+        
+                <div class="txtb">
+                    <input type="password" id="pwd" name="pwd" placeholder="Password" value="" required>
+                </div>
+        
+                <div class="errorContainer" style="padding: 0px 10px 20px;">
+                    <ul class="error"></ul>
+                </div>
+                <div>
+                    <h1><% if (locals.errors) { %>
+                        <ul><% Object.values(errors).forEach(function(error){ %><%= error%><% }); %></ul>
+                    <% }else{%>
+                        <ul></ul><%
+                    }
+                    %></h1>
+                </div>
+                <div>
+                    <input type="submit" class="logbtn" value="Login">
+                    <input type="submit" class="logbtn" value="Reset">
+                </div>
+
+                <h6 type="text" id="message" name="message" style="font-size: 2em;"></h6>
+      
+            </form>
+            
+    
+        </div>
+
+    </body>
+
+</html>
