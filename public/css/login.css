@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Kanit;
+    font-family: montserrat;
     box-sizing: border-box;
 }
 
@@ -30,12 +30,12 @@ body {
     background: #FFFFFF;
     height: 368px;
     padding: 10px 35px;
-    /*border-radius: 5px;*/
+    /*border-radius: 10px;*/
     position: absolute;
     left: 50%;
     top: 25%;
     box-shadow: 2px 2px 3px 0.2px #363636;
-    transform: translate(-50%, -50%);
+    /*transform: translate(-50%, -50%);*/
 }
 
 .login-form h1 {
