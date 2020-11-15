@@ -5,6 +5,7 @@ var path = require('path');
 var https = require('https');
 var http = require('http');
 var bodyParser = require("body-parser");
+const {check,validationResult} = require("express-validator");
 const { spawn } = require('child_process');
 
 let stdData;
@@ -31,18 +32,11 @@ app.engine('.ejs', require('ejs').renderFile);
 
 app.get('/', function (req, res) {
     /*res.json({result: "OK", data:[1,2,3,4,5]});*/
-    res.render('login', {fname: 'CS264', lName: 'GROUP1'});
+    res.render('login');
 });
 
-app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/main', function (req, res) {res.render('main', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/enroll_nor', function (req, res) {res.render('enroll_nor', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/enroll_spe', function (req, res) {res.render('enroll_spe', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/reqStatus', function (req, res) {res.render('main', {fname: 'CS264', lName: 'GROUP1'});})
+app.get('/login', function (req, res) {res.render('login');})
+app.get('/main', function (req, res) {res.render('main');})
 
 app.get('/logout', async(req, res)=>{
   stdData=null;
@@ -58,24 +52,11 @@ app.get('/logout', async(req, res)=>{
 
 });
 
-app.get('/resq', async (req, res)=>{
-
-  const ques = req.query;
-  console.log('body '+ques['id_comments']);
-  console.log('to str '+req.toString);
-
-  if(ques!=null){
-    res.redirect('enroll_nor');
-  }else{
-    console.log("this"+getData);
-    res.redirect('enroll_nor');
-}});
-
 app.get('/api', async (req, res)=>{
 
   const ques = req.query;
-  console.log('body '+ques['user']);
-  console.log('to str '+req.toString);
+  //console.log('body '+ques['user']);
+  //console.log('to str '+req.toString);
   const getData = await loginAuthen(ques['user'], ques['pwd']);
 
   if(getData){
@@ -86,7 +67,7 @@ app.get('/api', async (req, res)=>{
         res.render('main',{name_th: datax.displayname_th,});
      }else{
           let fails=JSON.parse(getData);
-          //console.log("this "+fails.status);
+          /*console.log(fails.message);*/
           res.render('login', {
             errors: fails.message
           })
@@ -97,52 +78,6 @@ app.get('/api', async (req, res)=>{
     console.log("this"+getData);
     return false;
   }
-});
-
-app.get("/main", async function(req, res){
-  if(sa==false){
-    return res.render('login');
-  }else{
-    var nameid = req.query.username;
-    console.log(nameid);
-    const data = await getStudentInfo(nameid);
-    //console.log(data);
-    if (data) {
-      let j = JSON.parse(data);
-      res.render("main",
-      {prefix: j.data.prefixname,
-        name_th: j.data.displayname_th,
-        name_en: j.data.displayname_en,
-        email: j.data.email,
-        faculty: j.data.faculty,
-        department: j.data.department
-      });
-    }
-}
-  
-});
-
-app.get("/profiles", async function(req, res){
-  if(sa==false){
-    return res.render('login');
-  }else{
-    var nameid = stdData.username;
-    console.log(nameid);
-    const data = await getStudentInfo(nameid);
-    //console.log(data);
-    if (data) {
-      let j = JSON.parse(data);
-      res.render("profiles", 
-      {prefix: j.data.prefixname,
-       name_th: j.data.displayname_th,
-       name_en: j.data.displayname_en,
-       email: j.data.email,
-       faculty: j.data.faculty,
-       department: j.data.department
-       });
-    }
-}
-  
 });
 
 const getStudentInfo = (username) => {
