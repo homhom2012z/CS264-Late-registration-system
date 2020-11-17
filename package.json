@@ -4,7 +4,7 @@
   "description": "TU-Late-Registrations",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,13 +13,10 @@
   },
   "license": "ISC",
   "dependencies": {
-    "alert": "^5.0.6",
     "body-parser": "^1.19.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "js-alert": "^1.0.4",
     "passport": "^0.4.1",
-    "passport-http-bearer": "^1.0.1",
     "sweetalert2": "^10.10.1"
   },
   "engines": {
