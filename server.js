@@ -5,10 +5,9 @@ var path = require('path');
 var https = require('https');
 var http = require('http');
 var bodyParser = require("body-parser");
-const { spawn } = require('child_process');
 
 let stdData;
-let sa=false;
+let sa={status: false,};
 
 var PORT  = process.env.PORT || 5000;
 var app = express();
@@ -35,101 +34,101 @@ app.get('/', function (req, res) {
 });
 
 app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
+app.get('/enroll_nor', (req, res) =>{if(sa.status==true){res.render('enroll_nor', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+app.get('/enroll_spe', (req, res) =>{if(sa.status==true){res.render('enroll_spe', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+app.get('/reqStatus', function (req, res) {res.render('main', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th});})
 
-app.get('/main', function (req, res) {res.render('main', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/enroll_nor', function (req, res) {res.render('enroll_nor', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/enroll_spe', function (req, res) {res.render('enroll_spe', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/reqStatus', function (req, res) {res.render('main', {fname: 'CS264', lName: 'GROUP1'});})
-
-app.get('/logout', async(req, res)=>{
-  stdData=null;
-  if(stdData=null){
-    sa=false;
-    res.render('login');
+function checkAuthenticated(res, next){
+  console.log('this is sa : '+sa.status);
+  if(sa.status!=true){
+    res.redirect('login');
   }else{
-    sa=false;
-    res.render('login');
+    app
   }
-  req.write(null);
-  req.end();
+}
 
-});
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}  
 
-app.get('/resq', async (req, res)=>{
+/*app.get(['/', 'main/:id', '/:id'], async(req, res)=>{
+  res.render('main')
+})*/
 
-  const ques = req.query;
-  console.log('body '+ques['id_comments']);
-  console.log('to str '+req.toString);
-
-  if(ques!=null){
-    res.redirect('enroll_nor');
-  }else{
-    console.log("this"+getData);
-    res.redirect('enroll_nor');
-}});
-
-app.get('/api', async (req, res)=>{
+app.post('/api', async (req, res)=>{
 
   const ques = req.query;
-  console.log('body '+ques['user']);
-  console.log('to str '+req.toString);
-  const getData = await loginAuthen(ques['user'], ques['pwd']);
+  const getData = await loginAuthen(req.body.user, req.body.pwd);
 
   if(getData){
      let datax=JSON.parse(getData);
      stdData=JSON.parse(getData);
      if(datax.status==true){
-        sa=true;
-        res.render('main',{name_th: datax.displayname_th,});
+        sa.status=true;
+        res.render('main',{prefix: 'คุณ', name_th: datax.displayname_th});
      }else{
           let fails=JSON.parse(getData);
-          //console.log("this "+fails.status);
+          
           res.render('login', {
             errors: fails.message
           })
-          /*res.render('login', {message: fails.message, status:fails.status});*/
      }
-     
   }else{
     console.log("this"+getData);
     return false;
   }
 });
 
-app.get("/main", async function(req, res){
-  if(sa==false){
-    return res.render('login');
+app.get('/logout', async(req, res)=>{
+  stdData=null;
+  if(stdData=null){
+    sa.status=false;
+    res.redirect('login');
   }else{
-    var nameid = req.query.username;
-    console.log(nameid);
-    const data = await getStudentInfo(nameid);
-    //console.log(data);
-    if (data) {
-      let j = JSON.parse(data);
-      res.render("main",
-      {prefix: j.data.prefixname,
-        name_th: j.data.displayname_th,
-        name_en: j.data.displayname_en,
-        email: j.data.email,
-        faculty: j.data.faculty,
-        department: j.data.department
-      });
-    }
-}
-  
+    sa.status=false;
+    res.redirect('login');
+  }
 });
 
+app.get("/main", async function(req, res){
+  if(sa.status==true){
+    var nameid = stdData.username;
+    const data = await getStudentInfo(nameid);
+    if (data) {
+      let j = JSON.parse(data);
+      res.render("main",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th});
+    }
+  }else{
+    res.redirect('login')
+  }
+});
+
+app.post('/resQN', async (req, res)=>{
+
+  const ques = req.query;
+  console.log('ID from form '+req.body.std_name);
+  await sleep(3000);
+  res.render('enroll_nor', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th});
+
+})
+
+app.get('/resQS', async (req, res)=>{
+
+  const ques = req.query;
+  console.log('ID '+ques['id_comments']);
+  await sleep(3000);
+  res.render('enroll_sper', {prefix: 'คุณ', name_th: stdData.displayname_th});
+  
+})
+
 app.get("/profiles", async function(req, res){
-  if(sa==false){
-    return res.render('login');
+  if(sa.status==false){
+    return res.redirect('login');
   }else{
     var nameid = stdData.username;
-    console.log(nameid);
     const data = await getStudentInfo(nameid);
-    //console.log(data);
     if (data) {
       let j = JSON.parse(data);
       res.render("profiles", 
@@ -167,9 +166,7 @@ const getStudentInfo = (username) => {
   
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
-          //result = body;
           resolve(body.toString());
-          //result = chunks;
         });
   
         res.on("error", function (error) {
@@ -200,14 +197,12 @@ const loginAuthen = (user, password)=>{
         
             res.on("data", function (chunk) {
                 chunks.push(chunk);
-                //console.log('this is data : '+chunk);
             });
         
             res.on("end", function (chunk) {
                 var body = Buffer.concat(chunks);
-                //let j = JSON.parse(body);
                 resolve(body.toString());
-                //console.log('stdData : '+stdData.username);
+
             });
     
             res.on("error", function (error) {

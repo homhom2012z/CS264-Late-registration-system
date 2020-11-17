@@ -6,6 +6,7 @@
     <title>ระบบลงทะเบียนล่าช้า</title>
     <!-- ICON -->
     <!-- CSS -->
+    
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css" rel="stylesheet" type="text/css">
@@ -23,7 +24,10 @@
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/enrolls.js"></script>
-    
+
+    <!-- SWAL-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- ENROLL -->
     <link href="css/upload.css" rel="stylesheet" media="all">
     <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/global.js"></script>
@@ -36,17 +40,55 @@
 
       gtag('config', 'UA-23581568-13');
     </script>
+    <script>
+      function x(form){
+        console.log(form.std_id.value)
+        Swal.fire({
+        title: 'ยืนยันการลงทะเบียนรายวิชา : '+form.id_subj.value,
+        text: "เมื่อส่งคำขอแล้วไม่สามารถแก้ไขได้!",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            form.action='/resQN';
+            Swal.fire({
+              title: 'ดำเนินการเสร็จสิ้น!',
+              text: 'หน้าต่างจะปิดใน 3 วินาที',
+              icon: 'success',
+              confirmButtonText : 'ตกลง'}
+            )
+            return form.submit();
+            
+          }
+        })
+      }
+      
+    </script>
+    
+    <script>
+      function sents(){
+        Swal.fire({
+          icon: 'success',
+          title: 'บันทึกคำร้องเรียบร้อยแล้ว',
+          showConfirmButton: false,
+          timer: 3000
+        })
+      }
+    </script>
     
 </head>
 <body>
     <nav class="navbar navbar-default no-margin">
-    
         <div class="navbar-header fixed-brand" >
           <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
             <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
           </button>-->
           
-          <p3 class="navbar-brand" href="#" style="font-size: 26px; color: white; padding: 10px;"><i class="fa fa-rocket fa-4"></i>ระบบลงทะเบียนเรียนล่าช้า</p3>
+          <p3 class="navbar-brand" href="#" style="font-size: 26px; color: white; padding: 10px;"><i class="fa fa-rocket fa-4" style="padding-right: 10px;"></i>ระบบลงทะเบียนเรียนล่าช้า</p3>
         </div>
         
     </nav>
@@ -57,29 +99,18 @@
         <div class="img bg-wrap text-center py-4" style="background-image: url(img/bg_1.jpg);">
             <div class="user-logo">
                 <div class="img" style="background-image: url(img/profiles.png);"></div>
-                <h3>Wellcome to TU Late Registration</h3>
+                <h3><%=prefix%> <%=name_th%></h3>
             </div >
             
         </div>
     </header>
     <ul class="nav">
-      <li>
-        <a href="/main"><i class="zmdi zmdi-view-dashboard"></i> หน้าหลัก</a>
-      </li>
-      <li>
-        <a href="/profiles"><i class="zmdi zmdi-link"></i> ข้อมูลส่วนตัว</a>
-      </li>
-      <li>
-        <a href="/enroll_nor"><i class="zmdi zmdi-widgets"></i> ลงทะเบียน</a>
-      </li>
-      <li>
-        <a href="/enroll_spe"><i class="zmdi zmdi-calendar"></i> ลงทะเบียนล่าช้า</a>
-      </li>
-      <li>
-        <a href="/reqStatus"><i class="zmdi zmdi-info-outline"></i> สถานะคำร้อง</a>
-      </li>
-      <li>
-        <a href="/logout"><i class="zmdi zmdi-settings"></i> ออกจากระบบ</a>
+      <li><a href="/main"><i class="zmdi zmdi-view-dashboard"></i> หน้าหลัก</a></li>
+      <li><a href="/profiles"><i class="zmdi zmdi-link"></i> ข้อมูลส่วนตัว</a></li>
+      <li><a href="/enroll_nor"><i class="zmdi zmdi-widgets"></i> ลงทะเบียน</a></li>
+      <li><a href="/enroll_spe"><i class="zmdi zmdi-calendar"></i> ลงทะเบียนล่าช้า</a></li>
+      <li><a href="/reqStatus"><i class="zmdi zmdi-info-outline"></i> สถานะคำร้อง</a></li>
+      <li><a href="/logout"><i class="zmdi zmdi-settings"></i> ออกจากระบบ</a>
       </li>
     </ul>
   </div>
@@ -106,7 +137,7 @@
         </div>
         <div class='panel-body'>
 
-          <form class='form-horizontal' action="/resq" method="GET">
+          <form class='form-horizontal' action="javascript:;" method="POST" onsubmit="return x(this);" >
             <!--<div class='form-group'>
               <label class='control-label col-md-2 col-md-offset-2' for='id_accomodation'>Accomodation</label>
               <div class='col-md-2'>
@@ -149,18 +180,18 @@
             </div>
 
             <div class='form-group'>
-              <label class='control-label col-md-2 col-md-offset-2' for='id_checkin'>ชื่อ - กสุล</label>
+              <label class='control-label col-md-2 col-md-offset-2' for='std_name'>ชื่อ - กสุล</label>
               <div class='col-md-8'>
                 <div class='col-md-5'>
                   <div class='form-group internal'>
-                    <input class='form-control' id="id_first_name" name="id_first_name" placeholder='Full Name' type='text'>
+                    <input class='form-control' id="std_name" name="std_name" placeholder='Full Name' type='text' value="<%=name_th%>">
                   </div>
                 </div>
 
-                <label class='control-label col-md-2' for='id_last_name'>รหัสนักศึกษา</label>
+                <label class='control-label col-md-2' for='std_id'>รหัสนักศึกษา</label>
                 <div class='col-md-3'>
                   <div class='form-group internal'>
-                    <input class='form-control' id='id_last_name' name='id_last_name' placeholder='Student ID' type='text'>
+                    <input class='form-control' id='std_id' name='std_id' placeholder='Student ID' type='text' value="<%=stdID%>">
                   </div>
                 </div>
               </div>
@@ -302,10 +333,10 @@
                 <input type="submit" style="max-height: 42px; margin: auto; font-size: 16px;" class="btn-lg btn-primary" value="ยืนยัน">
               </div>
               <div class='col-md-1'>
-                <input type="submit" style="max-height: 42px; margin: auto; font-size: 16px;" class="btn-lg btn-danger" value="ยกเลิก">
+                <input onclick="location.href='/main';" type="button" style="max-height: 42px; margin: auto; font-size: 16px;" class="btn-lg btn-danger" value="ยกเลิก">
               </div>
               <div class='col-md-1'>
-                <input type="submit" style="max-height: 42px; margin: auto; font-size: 16px;" class="btn-lg btn-secondary" value="แก้ไข">
+                <input type="reset" style="max-height: 42px; margin: auto; font-size: 16px;" class="btn-lg btn-secondary" value="แก้ไข">
               </div>
             </div>
           </form>

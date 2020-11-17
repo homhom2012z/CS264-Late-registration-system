@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=10">
     <title>ระบบลงทะเบียนล่าช้า</title>
     <link rel="stylesheet" href="css/login.css" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
@@ -16,6 +16,38 @@
               $('#myModal').modal('show');
       });
     </script>
+    <script>
+      window.onload = function(){
+        var element = document.getElementById("error_message");
+        element.classList.toggle("alert-null");
+        /*if (element.classList) { 
+          element.classList.toggle("alert-null");
+        }*/
+      };
+    </script>
+
+    <script>
+      /*const rmCheck = document.getElementById("rememberMe"),
+      userInpit = document.getElementById("user");
+
+      if (localStorage.checkbox && localStorage.checkbox !== "") {
+        rmCheck.setAttribute("checked", "checked");
+        userInpit.value = localStorage.username;
+      } else {
+        rmCheck.removeAttribute("checked");
+        userInpit.value = "";
+      }
+
+      function lsRememberMe() {
+        if (rmCheck.checked && userInpit.value !== "") {
+          localStorage.username = userInpit.value;
+          localStorage.checkbox = rmCheck.value;
+        } else {
+          localStorage.username = "";
+          localStorage.checkbox = "";
+        }
+      }*/
+    </script>
 
 </head>
 
@@ -26,36 +58,37 @@
       </div>
       <div class="column" style="background-color:#d14f4b;">
         
-        <form action="/api" class="login-form" method="GET">
+        <form action="/api" class="login-form" method="POST">
           <h1>เข้าสู่ระบบ (นักศึกษา/บุคลากร)</h1>
           <div class="txtb">
               <input type="text" id="user" name="user" placeholder="Username" value="" required>
           </div>
-  
           <div class="txtb">
               <input type="password" id="pwd" name="pwd" placeholder="Password" value="" required>
           </div>
+          
           <div style="padding-left: 72% ;padding-bottom: 5%;">
-            <input type="checkbox" id="passWordRemem" name="passWordRemem" value=true>
-            <label for="passWordRemem">Remember me</label><br>
+            <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label>
+            <!--<input type="checkbox" id="passWordRemem" name="passWordRemem" value=true>
+            <label for="passWordRemem">Remember me</label><br>-->
           </div>
 
           <div class="errorContainer" style="padding: 0px 10px 20px;">
-            <ul class="error"></ul>
+            <label class="error-message">gggg</label>
           </div>
-          <div>
-            <h1><% if (locals.errors) { %>
-                <ul><% Object.values(errors).forEach(function(error){ %><%= error%><% }); %></ul>
-            <% }else{%>
-                <ul></ul><%
-            }
-            %></h1>
-        </div>
+          <div class="alert-error" id="error_message">
+            <h6><% if (locals.errors) { %>
+              <div class="err_msg">
+                <% Object.values(errors).forEach(function(error){ %><%= error%><% }); %>
+              </div>
+              
+            <% }
+            %></h6>
+          </div>
           <div style="padding-left: 198px ;">
-            <input type="submit" class="logbtn" value="Login">
-            <input type="submit" class="logbtn" value="Reset">
+            <input type="submit" class="logbtn" value="Login" onclick="lsRememberMe()">
+            <input type="reset" class="logbtn" value="Reset">
           </div>
-          <h6 type="text" id="message" name="message" style="font-size: 2em;"></h6>
   
         </form>
         

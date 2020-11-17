@@ -25,6 +25,10 @@ body {
     
 }
 
+.err_msg{
+    margin-bottom: 0px;
+}
+
 .login-form {
     width: 472px;
     background: #FFFFFF;
@@ -236,6 +240,26 @@ body {
     display: none;
 
 }
-.error{
-    color: #E03D3D;
+
+.alert-error{
+    position: relative;
+    /*padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;*/
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-success_msg{
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+alert-null {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
 }
