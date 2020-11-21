@@ -15,72 +15,79 @@
     <script src="js/main2.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default no-margin" style="margin: ">
-    
-        <div class="navbar-header fixed-brand" >
-          <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-          </button>-->
-          
-          <p3 class="navbar-brand" href="#" style="font-size: 26px; color: white; padding: 10px;"><i class="fa fa-rocket fa-4" style="padding-right: 10px;"></i>ระบบลงทะเบียนเรียนล่าช้า</p3>
-        </div>
-        
-    </nav>
-    
-<div id="viewport">
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <header>
-        <div class="img bg-wrap text-center py-4" style="background-image: url(img/bg_1.jpg);">
-            <div class="user-logo">
-                <div class="img" style="background-image: url(img/profiles.png);"></div>
-                <h3><%=prefix%> <%=name_th%></h3>
-            </div >
-            
-        </div>
-    </header>
-    <ul class="nav">
-      <li>
-        <a href="/main"><i class="zmdi zmdi-view-dashboard"></i> หน้าหลัก</a>
-      </li>
-      <li>
-        <a href="/profiles"><i class="zmdi zmdi-link"></i> ข้อมูลส่วนตัว</a>
-      </li>
-      <li>
-        <a href="/enroll_nor"><i class="zmdi zmdi-widgets"></i> ลงทะเบียน</a>
-      </li>
-      <li>
-        <a href="/enroll_spe"><i class="zmdi zmdi-calendar"></i> ลงทะเบียนล่าช้า</a>
-      </li>
-      <li>
-        <a href="/reqStatus"><i class="zmdi zmdi-info-outline"></i> สถานะคำร้อง</a>
-      </li>
-      <li>
-        <a href="/logout"><i class="zmdi zmdi-settings"></i> ออกจากระบบ</a>
-      </li>
-    </ul>
-  </div>
+  <!-- NAVBAR TOP -->
+  <!--<nav class="navbar navbar-default no-margin" style="margin: auto;">
+      <div class="navbar-header fixed-brand" >
+        <p3 class="navbar-brand" href="#" style="font-size: 26px; color: white; padding: 10px;"><i class="fa fa-rocket fa-4" style="padding-right: 10px;"></i>ระบบลงทะเบียนเรียนล่าช้า</p3>
+      </div>
+  </nav>-->
+  <nav class="banner" >
+    <div style="height: 7.4em; width: 100%; margin:auto;">
 
-  <!-- Content -->
-<div id="content">
-    <!-- DIV TOP -->
-    <div class="container" style="margin: auto; padding-top: 2%;">
-        <div class="div-top-bar"><b style="color: #f75f19;">MAIN</b></div>
-        <div class="div-center-bar">
+      
+      <img class="img-responsive" src="img/header_nav_full.png" alt="logox" style="width: 350px;"></img>
+      <div class="box-notification">
+        <div class="notification show-count" data-count="990"></div>
+      </div>
+      
+      <!--<img class="img-responsive" src="img/logo.png" alt="logox" class="responsive" style="width: 100px; padding-right: 5px; border-radius: 50%; "></img>
+      <img class="img-responsive" src="img/logos_2.png" alt="logos_2" class="responsive" style="width: 250px; padding-top: 20px; padding-right: 5px;"></img>-->
+    </div>
 
-        </div>
-        <div class="container"><b style="color: #f75f19;"></b></div>
+  </nav>
+
+  <!-- NAVBAR SIDE -->
+  <div id="viewport">
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+      <!--HEADER-->
+      <header>
+          <div class="img bg-wrap text-center py-4" style="background-image: url(img/bg_1.jpg);">
+              <div class="user-logo">
+                  <div class="img" style="background-image: url(img/profiles.png);"></div>
+                  <h3><%=prefix%> <%=name_th%></h3>
+              </div>
+              
+          </div>
+      </header>
+
+      <!--NAV-->
+      <ul class="nav">
+        <li><a href="/main"><i class="zmdi zmdi-view-dashboard"></i> หน้าหลัก</a></li>
+        <li><a href="/profiles"><i class="zmdi zmdi-account-circle"></i> ข้อมูลส่วนตัว</a></li>
+        <li><a href="/enroll_nor"><i class="zmdi zmdi-assignment-o"></i> ลงทะเบียน</a></li>
+        <li><a href="/enroll_spe"><i class="zmdi zmdi-assignment"></i> ลงทะเบียนล่าช้า</a></li>
+        <li><a href="/reqStatus"><i class="fa fa-check-square-o" aria-hidden="true"></i>สถานะคำร้อง</a></li>
+        <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> ออกจากระบบ</a></li>
+      </ul>
 
     </div>
-    
+    <!--end_sidebar-->
+    <div id="content"></div>
+    <div class="div-content-header-bar"><b style="color: #c8ff00;">MAIN</b></div>
+    <!-- Content -->
+    <div id="content">
+      <!-- DIV TOP -->
+      
 
-    <!--<div class="container-fluid">
-      <h1>Simple Sidebar</h1>
-      <p>Make sure to keep all page content within the <code>#content</code>.</p>
-    </div>-->
+      <div class="container" style="padding-top: 25px;">
+        
+        <div class="div-content-header-bar"><b style="color: #f75f19;">MAIN</b></div>
+        <div class="div-content-inside-bar">
+          <p>The site is trying to confuse you by slightly changing a safe URL.</p>
+          <h4>DEPARTMENT DEPARTMENT DEPARTMENT DEPARTMENT DEPARTMENT DEPARTMENT DEPARTMENT DEPARTMENT</h4>
+
+        </div>
+
+      </div>
+      
+      <!-- DIV Fluid-->
+      <div class="container-fluid"></div>
+
+    </div>
 
   </div>
-</div>
 
 </body>
 </html>  

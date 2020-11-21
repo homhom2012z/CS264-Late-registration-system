@@ -9,7 +9,7 @@
 }
 
 body {
-  
+  background-color: rgb(223, 223, 223);
   overflow-x: hidden;
   font-family: 'Kanit', sans-serif;
 }
@@ -31,10 +31,41 @@ body {
   margin-right: 0;
 }
 
+.div-content-header-bar{
+  background-color: #EBEDEF ;
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #c1cad3;
+  max-width: 100%;
+  width: 95%;
+  height: 50px;
+  padding: 12px;
+  margin: left;
+}
+
+.div-content-inside-bar{
+  border: 1px solid #c1cad3;
+  background-color: #FFFFFF;
+  max-width: 100%;
+  width: 95%;
+  max-height: 500px;
+  height: auto;
+  margin: left;
+  padding: 10px;
+  
+}
+
+.img-responsive{
+  width: 100%;
+  max-width: 530px;
+  height: auto;
+  float: right;
+}
+
 .navbar {
     height: 7%;
+    max-height: 20%;
     padding-left: 250px;
-    background: #455A64;
+    /*background-color: #455A64;*/
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 10px;
@@ -44,8 +75,24 @@ body {
 }
 
 .navbar-default {
-  background-color: #455A64;
+  background-image: url('img/header_nav.png');
+  max-width: 1920px;
+  width: auto;
+  background-color: #d14f4b;
   color: white;
+}
+
+.banner{
+  background-color: #d14f4b;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+  text-align: center!important;
+  padding-bottom: 1.5rem!important;
+  /*padding-top: 1.5rem!important;*/
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -58,7 +105,7 @@ body {
 #sidebar {
   z-index: 1000;
   position: fixed;
-
+  
   left: 250px;
   width: 250px;
   height: 100%;
@@ -79,6 +126,7 @@ body {
 }
 
 #sidebar header a {
+  
   color: #fff;
   display: block;
   text-decoration: none;
@@ -101,8 +149,10 @@ body {
 }
 
 #sidebar .nav a:hover{
-  background: #d14f4b;
-  color: #ECEFF1;
+  background: #f1ad18;
+  color: black;
+  font-weight: bold;
+  /*color: #ECEFF1;*/
 }
 
 #sidebar .nav a i{
@@ -308,6 +358,7 @@ element.style {
 }
 
 /*notifications*/
+
 .navbar .badge {
   background: #d1d1d1;
   font-size: 11px;
@@ -335,30 +386,106 @@ element.style {
   padding: 10px;
 }
 
-.div-top-bar{
-  background-color: #EBEDEF ;
-  border-radius: 5px 5px 0px 0px;
-  border: 1px solid #c1cad3;
-  max-width: 1200px;
-  width: 95%;
-  height: 50px;
-  padding: 12px;
-  margin: left;
-}
-
-.div-center-bar{
-  border: 1px solid #c1cad3;
-  background-color: #FFFFFF;
-  max-width: 1200px;
-  width: 95%;
-  max-height: 500px;
-  height: auto;
-  margin: left;
-  padding-left: 10px;
-  
-}
-
 .div-buttom-bar{
   border-radius: 5px 5px 5px 5px;
   
+}
+
+/* Notifications */
+
+/*.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}*/
+
+button {
+  display: block;
+  padding: 1em 2em;
+  outline: none;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  background-color: #3498db;
+  border: 1px solid #1f74ac;
+  border-radius: 0.3em;
+  margin-top: 4em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2487c9;
+}
+
+/* Notifications */
+
+.notification {
+  display: inline-block;
+  position: relative;
+  padding: 0.6em;
+  background: #d14f4b;
+  border-radius: 0.2em;
+  font-size: 1.3em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.notification::before, 
+.notification::after {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.notification::before {
+  display: block;
+  content: "\f0f3";
+  font-family: "FontAwesome";
+  transform-origin: top center;
+}
+
+.notification::after {
+  font-family: Arial;
+  font-size: 0.7em;
+  font-weight: 700;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  padding: 5px 8px;
+  line-height: 100%;
+  border: 2px #fff solid;
+  border-radius: 60px;
+  background: #3498db;
+  opacity: 0;
+  content: attr(data-count);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform, opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.notification.notify::before {
+  animation: ring 1.5s ease;
+}
+
+.notification.show-count::after {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.box-notification{
+  /*position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  text-align: center;*/
+  width: 100%;
+  max-width: 50px;
+  height: auto;
+  float: right;
+  margin-top: 40px;
+  margin-right: 25px;
 }

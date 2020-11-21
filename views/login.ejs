@@ -73,13 +73,14 @@
             <label for="passWordRemem">Remember me</label><br>-->
           </div>
 
-          <div class="errorContainer" style="padding: 0px 10px 20px;">
-            <label class="error-message">gggg</label>
-          </div>
+          <!--<div class="errorContainer" style="padding: 0px 10px 20px;">
+            <label class="error-message"></label>
+          </div>-->
           <div class="alert-error" id="error_message">
             <h6><% if (locals.errors) { %>
-              <div class="err_msg">
-                <% Object.values(errors).forEach(function(error){ %><%= error%><% }); %>
+              <div class="err_msg" style="padding: .75rem 1.25rem;margin-bottom: 1rem;border: 1px solid transparent;border-radius: .25rem;color: #a94442;background-color: #f2dede;border-color: #ebccd1;">
+                User or Password Invalid!
+                <!--<% Object.values(errors).forEach(function(error){ %><%= error%><% }); %>-->
               </div>
               
             <% }
@@ -98,26 +99,21 @@
 
 <!-- MODAL -->
     <div class="container">
-  
       <!-- Modal -->
-      <div class="modal fade" id="myModal" role="dialog" >
-        <div class="modal-dialog">
-        
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" style="max-width: fit-content;">
           <!-- Modal content-->
-          <div class="modal-content" style="width:100%;max-width:800px;">
-          <img src="img/GetBanner.jpg" alt="img" style="width:800px;max-width:100%; height:100%;max-height:100%;">
+          <div class="modal-content">
+            <img src="img/modal_1.jpg" alt="img" style="width:1000px;">
     
             <!--<div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title"></h4>
             </div>-->
-            
-            <!--<div class="modal-body">
-              
-              <p>Nothing.</p>
-            </div >-->
+
+            <div class="modal-body"></div >
             <div class="modal-footer" >
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="border: 1px solid #d14f4b;">Close</button>
             </div>
           </div>
           
