@@ -108,6 +108,19 @@ app.get("/main", async function(req, res){
   }
 });
 
+app.get("/notifications", async function(req, res){
+  if(sa.status==true){
+    var nameid = stdData.username;
+    const data = await getStudentInfo(nameid);
+    if (data) {
+      let j = JSON.parse(data);
+      res.render("notifications",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th});
+    }
+  }else{
+    res.redirect('login')
+  }
+});
+
 app.post('/resQN', async (req, res)=>{
 
   const ques = req.query;
