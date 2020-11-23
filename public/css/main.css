@@ -83,13 +83,14 @@ body {
 }
 
 .banner{
+  
   background-color: #d14f4b;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
   position: relative;
-  z-index: 0;
+  z-index: 1;
   text-align: center!important;
   padding-bottom: 1.5rem!important;
   /*padding-top: 1.5rem!important;*/
@@ -103,7 +104,7 @@ body {
 /* Sidebar Styles */
 
 #sidebar {
-  z-index: 1000;
+  z-index: 0;
   position: fixed;
   
   left: 250px;
@@ -169,6 +170,12 @@ body {
   color: #fff;
   font-size: 18px;
 }
+
+.bg-wrap .user-logo h4 {
+  color: #fff;
+  font-size: 14px;
+}
+
 .bg-wrap .user-logo .img {
   width: 100px;
   height: 100px;
@@ -199,10 +206,10 @@ element.style {
   text-align: center!important;
 }
 .pb-4, .py-4 {
-  padding-bottom: 1.5rem!important;
+  padding-bottom: 2.5rem!important;
 }
 .pt-4, .py-4 {
-  padding-top: 1.5rem!important;
+  padding-top: 2.5rem!important;
 }
 
 *, *::before, *::after {
@@ -393,14 +400,6 @@ element.style {
 
 /* Notifications */
 
-/*.container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}*/
 
 button {
   display: block;
@@ -412,7 +411,7 @@ button {
   background-color: #3498db;
   border: 1px solid #1f74ac;
   border-radius: 0.3em;
-  margin-top: 4em;
+  /*margin-top: 4em;*/
   cursor: pointer;
 }
 
@@ -489,3 +488,410 @@ button:hover {
   margin-top: 40px;
   margin-right: 25px;
 }
+/* Notifications */
+/* this */
+.icon_wrap{
+  cursor: pointer;
+}
+
+.notifications{
+  margin-right: 25px;
+}
+
+.notifications .icon_wrap{
+  font-size: 18px;
+}
+
+.notifications{
+  position: relative;
+}
+
+.notification_dd{
+  position: absolute;
+  top: 48px;
+  right: -15px;
+  user-select: none;
+  background: #fff;
+  border: 1px solid #c7d8e2;
+  width: 350px;
+  height: auto;
+  display: none;
+  border-radius: 3px;
+  box-shadow: 10px 10px 35px rgba(0,0,0,0.125),
+              -10px -10px 35px rgba(0,0,0,0.125);
+}
+
+.notification_dd:before{
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 15px;
+    border: 10px solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+.notification_dd li {
+    border-bottom: 1px solid #f1f2f4;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.notification_dd li .notify_icon{
+  display: flex;
+}
+
+.notification_dd li .notify_icon .icon{
+  display: inline-block;
+  background: url('https://i.imgur.com/lX846Zo.png') no-repeat 0 0;
+	width: 40px;
+	height: 42px;
+}
+
+.notification_dd li.baskin_robbins .notify_icon .icon{
+  background-position: 0 -43px;
+}
+
+.notification_dd li.mcd .notify_icon .icon{
+  background-position: 0 -86px;
+}
+
+.notification_dd li.pizzahut .notify_icon .icon{
+  background-position: 0 -129px;
+}
+
+.notification_dd li.kfc .notify_icon .icon{
+  background-position: 0 -178px;
+}
+
+.notification_dd li .notify_data{
+  margin: 0 15px;
+  width: 185px;
+}
+
+.notification_dd li .notify_data .title{
+  color: #000;
+  font-weight: 600;
+}
+
+.notification_dd li .notify_data .sub_title{
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+}
+
+.notification_dd li .notify_status p{
+  font-size: 14px;
+}
+
+.notification_dd li.success .notify_status p{
+  color: #47da89;
+}
+
+.notification_dd li.pendding .notify_status p{
+  color: #f1ad1a;
+}
+
+.notification_dd li.failed .notify_status p{
+  color: #fb0001;
+}
+
+.notification_dd li.show_all{
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.notification_dd li.show_all p{
+  font-weight: 700;
+  color: #3b80f9;
+  cursor: pointer;
+}
+
+.notification_dd li.show_all p:hover{
+  text-decoration: underline;
+}
+
+.notifications.active .notification_dd{
+  display: block;
+}
+
+.popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.popup .shadow {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+}
+
+.popup .inner_popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 100%;
+    height: auto;
+}
+
+.popup .notification_dd{
+  display: block;
+  position: static;
+  margin: 0 auto;
+  height: 357px;
+  overflow: auto;
+}
+
+.popup .notification_dd:before{
+   display: none;
+}
+
+.popup .notification_dd li.title{
+  font-weight: 700;
+  color: #3b80f9;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.popup .notification_dd li.title .close{
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.popup .notification_dd li.title .close:hover{
+  opacity: 0.5;
+}
+
+/* AGREEMENT */
+
+.item{
+	/*flex:0 0 33.33%;
+	max-width: 33.33%;
+	padding: 15px;*/
+}
+
+.item .item-inner{
+	/*border:1px solid #dddddd;
+	padding: 30px;*/
+}
+.item .read-more-cont{
+	display: none;
+}
+
+.data{
+  display: none;
+}
+/*.item .item-inner h3{
+	font-size: 20px;
+	color:#000000;
+	margin-bottom: 30px;
+	position: relative;
+}*/
+/*.item .item-inner h3::before{
+  content: '';
+  height: 1px;
+  width: 80px;
+  background-color: #000000;
+  position: absolute;
+  left:0;
+  bottom:-10px;
+}*/
+
+/*.item .item-inner p{
+	color:#555555;
+	font-size: 16px;
+	margin:0 0 30px;
+}*/
+
+.item .item-inner .btn{
+	font-size: 16px;
+	background-color: transparent;
+	border:1px solid #555555;
+	color:#555555;
+	padding: 8px 15px;
+	cursor: pointer;
+}
+
+.popup-box{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top:0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 500;
+	visibility: hidden;
+	opacity:0;
+	transition: all 0.5s ease-in-out;
+}
+.popup-box.open{
+  visibility: visible;
+	opacity:1;	
+}
+.popup-box .popup-content{
+	background-color: #ffffff;
+	width: 600px;
+	position: absolute;
+	left: 50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+	border-radius: 8px;
+}
+
+.popup-box .popup-header{
+	padding: 15px 40px 15px 15px;
+	border-bottom: 1px solid #dddddd;
+}
+.popup-box .popup-header h3{
+	margin:0;
+	color:#E91E63;
+	font-size: 20px;
+}
+.popup-box .popup-header .popup-close-icon{
+	position: absolute;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    color: #555555;
+    font-size: 28px;
+    line-height: 30px;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+}
+.popup-box .popup-body{
+	padding: 15px;
+	max-height: 500px;
+	overflow-y: auto;
+}
+.popup-box .popup-body img{
+	width: 100%;
+	display: block;
+	margin-top: 15px;
+}
+.popup-box .popup-body p{
+	font-size: 16px;
+	color:#555555;
+	margin:0 0 15px;
+}
+.popup-box .pop-footerx{
+  padding: 15px;
+	border-top:1px solid #dddddd;
+  text-align: right;
+  
+}
+.popup-box .popup-footer{
+  padding-top: 0px;
+	padding: 15px;
+	border-top:1px solid #dddddd;
+	text-align: right;
+}
+.popup-box .popup-footer .btn{
+	padding: 8px 15px;
+	border:1px solid #555555;
+	color:#555555;
+	font-size: 16px;
+	background-color: transparent;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.popup-box .popup-footer .btn:focus{
+	outline: none;
+}
+
+
+/*responsive*/
+
+@media(max-width: 767px){
+	.item{
+	  flex:0 0 100%;
+      max-width: 100%;
+   }
+   .popup-box .popup-content{
+   	 width: calc(100% - 30px);
+   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: auto;
+  padding: 20px;
+   /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px){
+  .container {
+      width: 1170px;
+
+      
+  }
+}
+
+#panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+.panel-primary {
+  margin-top: 20px;
+  max-width: auto;
+  /*width: 100%;*/
+  border-color: #d14f4b;
+}
+.dialog-panel {
+  margin: 20px 10px;
+  
+}
+.panel-heading {
+  padding: 5px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.panel-primary>.panel-heading {
+  color: #fff;
+  background-color: #d14f4b;
+  border-color: #d14f4b;
+}
+
+.panel-body{
+  
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 9px 0 rgba(0, 0, 0, 0.19);
+}
+

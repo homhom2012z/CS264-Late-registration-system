@@ -34,9 +34,8 @@ app.get('/', function (req, res) {
 });
 
 app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
-app.get('/enroll_nor', (req, res) =>{if(sa.status==true){res.render('enroll_nor', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+app.get('/enroll_nor', (req, res) =>{if(sa.status==true){res.render('enroll_nor', {stdID: stdData.username ,tu_status: stdData.tu_status, prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
 app.get('/enroll_spe', (req, res) =>{if(sa.status==true){res.render('enroll_spe', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
-app.get('/reqStatus', function (req, res) {res.render('main', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th});})
 
 function checkAuthenticated(res, next){
   console.log('this is sa : '+sa.status);
@@ -51,11 +50,7 @@ function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
-}  
-
-/*app.get(['/', 'main/:id', '/:id'], async(req, res)=>{
-  res.render('main')
-})*/
+}
 
 app.post('/api', async (req, res)=>{
 
@@ -66,8 +61,9 @@ app.post('/api', async (req, res)=>{
      let datax=JSON.parse(getData);
      stdData=JSON.parse(getData);
      if(datax.status==true){
+       await sleep(3000);
        sa.status=true;
-       res.render('main',{prefix: 'คุณ', name_th: datax.displayname_th});
+       res.render('main',{prefix: 'คุณ', name_th: datax.displayname_th, tu_status: stdData.tu_status});
      }else if(req.body.user==1&&req.body.pwd==1){
        sa.status=true;
        res.render('main', {prefix: 'คุณ', name_th: 'ADMIN'});
@@ -101,7 +97,7 @@ app.get("/main", async function(req, res){
     const data = await getStudentInfo(nameid);
     if (data) {
       let j = JSON.parse(data);
-      res.render("main",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th});
+      res.render("main",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th, tu_status: stdData.tu_status});
     }
   }else{
     res.redirect('login')
@@ -114,7 +110,7 @@ app.get("/notifications", async function(req, res){
     const data = await getStudentInfo(nameid);
     if (data) {
       let j = JSON.parse(data);
-      res.render("notifications",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th});
+      res.render("notifications",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th, tu_status: stdData.tu_status});
     }
   }else{
     res.redirect('login')
@@ -124,9 +120,12 @@ app.get("/notifications", async function(req, res){
 app.post('/resQN', async (req, res)=>{
 
   const ques = req.query;
-  console.log('ID from form '+req.body.std_name);
   await sleep(3000);
-  res.render('enroll_nor', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th});
+  if(stdData.username!=undefined){
+    res.render('enroll_nor', {stdID: stdData.username , tu_status: stdData.tu_status, prefix: 'คุณ', name_th: stdData.displayname_th});
+  }else{
+    res.redirect('login')
+  }
 
 })
 
@@ -135,7 +134,7 @@ app.get('/resQS', async (req, res)=>{
   const ques = req.query;
   console.log('ID '+ques['id_comments']);
   await sleep(3000);
-  res.render('enroll_sper', {prefix: 'คุณ', name_th: stdData.displayname_th});
+  res.render('enroll_sper', {prefix: 'คุณ',tu_status: stdData.tu_status, name_th: stdData.displayname_th});
   
 })
 
@@ -148,7 +147,32 @@ app.get("/profiles", async function(req, res){
     if (data) {
       let j = JSON.parse(data);
       res.render("profiles", 
-      {prefix: j.data.prefixname,
+      {prefix: 'คุณ',
+      tu_status: stdData.tu_status,
+       username: stdData.username,
+       name_th: j.data.displayname_th,
+       name_en: j.data.displayname_en,
+       email: j.data.email,
+       faculty: j.data.faculty,
+       department: j.data.department
+       });
+    }
+}
+  
+});
+
+app.get("/reqStatus", async function(req, res){
+  if(sa.status==false){
+    return res.redirect('login');
+  }else{
+    var nameid = stdData.username;
+    const data = await getStudentInfo(nameid);
+    if (data) {
+      let j = JSON.parse(data);
+      res.render("status", 
+      {prefix: 'คุณ',
+      tu_status: stdData.tu_status,
+       username: stdData.username,
        name_th: j.data.displayname_th,
        name_en: j.data.displayname_en,
        email: j.data.email,

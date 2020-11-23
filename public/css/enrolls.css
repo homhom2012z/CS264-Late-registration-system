@@ -401,3 +401,10 @@ h5 {
   margin-inline-end: 0px;
   font-weight: bold;
 }
+
+.doc-upload{
+  font-size: 12px;
+   color:rgb(134, 134, 134);
+   padding-top:10px;
+   padding-left:10px;
+}
