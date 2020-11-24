@@ -55,7 +55,7 @@
           cancelButtonText: 'ยกเลิก'
           }).then((result) => {
             if (result.isConfirmed) {
-              form.action='/resQN';
+              form.action='/enroll_nor';
               Swal.fire({
                 title: 'ดำเนินการเสร็จสิ้น!',
                 text: 'หน้าต่างจะปิดใน 3 วินาที',
@@ -421,6 +421,22 @@
           </div>
         </div>
 
+      </div>
+      <!-- forms_2 -->
+      <div class="container" style="padding-top: 25px; ">
+
+        <div class='panel panel-primary dialog-panel'>
+          <div class='panel-heading'>
+            <h4>Forms_2</h4>
+          </div>
+          <div class='panel-body'>
+            <form action="/enroll_nor" method="POST">
+
+              <%- include('_form_fields') %>
+
+            </form> 
+          </div>
+        </div>
       </div>
       
       <!-- DIV Fluid-->

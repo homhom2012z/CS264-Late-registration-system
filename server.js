@@ -6,19 +6,28 @@ var https = require('https');
 var http = require('http');
 var bodyParser = require("body-parser");
 
-let stdData;
-let sa={status: false,};
-
-var PORT  = process.env.PORT || 5000;
 var app = express();
 
-app.listen(PORT, function () { console.log(`Listening on ${PORT}`) });
+const FormsShow = require('./models/forms')
+const Forms = require('./models/forms');
+const mongoose = require('mongoose')
+/*const marked = require('marked')
+const slugify = require('slugify')*/
 
+mongoose.connect('mongodb://localhost/enrolls', {
+  useNewUrlParser: true, useUnifiedTopology: true, /*useCreateIndex:true,*/
+})
+
+
+let stdData;
+let sa={status: false};
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false}))
+
+/*app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());*/
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(__dirname+'public/css'));
@@ -34,8 +43,92 @@ app.get('/', function (req, res) {
 });
 
 app.get('/login', function (req, res) {res.render('login', {fname: 'CS264', lName: 'GROUP1'});})
-app.get('/enroll_nor', (req, res) =>{if(sa.status==true){res.render('enroll_nor', {stdID: stdData.username ,tu_status: stdData.tu_status, prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+
+/*app.get(':slug', async (req, res) => {
+  const forms = await Forms.findOne({ slug: req.params.slug })
+  if (forms == null) res.redirect('status')
+  res.render('show_forms', { forms: forms, stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th
+  })
+})*/
+
+app.get('/show_forms', async (req, res)=>{
+  res.render('show_forms', {
+    stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th})
+})
+
+app.post('/enroll_nor', async (req, res) =>{
+  
+  /*await sleep(3000);*/
+  let forms = new Forms({
+    title: req.body.title,
+    description : req.body.description,
+    markdown: req.body.markdown
+  })
+  console.log('this is forms : '+forms)
+  try{
+    await forms.save();
+    console.log('success')
+    res.redirect(`/${forms.id}`)
+  }catch(e){
+    console.log('save failed')
+    res.render('enroll_nor', { forms: forms,
+    stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th,
+    name_en: stdData.displayname_en,
+    email: stdData.email,
+    faculty: stdData.faculty,
+    department: stdData.department})
+  }
+})
+
+app.get('/show_forms/:id', async (req, res) => {
+
+  console.log('ID : '+req.params.id)
+
+  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    const forms = await Forms.findById(req.params.id)
+    if(forms == null) res.redirect('status')
+    console.log('MATCH ID')
+    res.render('show_forms', {forms: forms,
+      stdID: stdData.username,
+      prefix: 'คุณ',
+      tu_status: stdData.tu_status,
+      username: stdData.username,
+      name_th: stdData.displayname_th,})
+  }else{
+    console.log('NOT MATCH ID')
+    res.redirect('main')
+  }
+  
+  /*if (forms == null) res.redirect('status')
+
+  res.render('/show_forms', { forms: forms, stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th
+  })*/
+})
+
+app.get('/enroll_nor', async (req, res) =>{
+  if(sa.status==true){
+    res.render('enroll_nor', {forms: new Forms(), stdID: stdData.username ,tu_status: stdData.tu_status, prefix: 'คุณ', name_th: stdData.displayname_th})
+  }else{res.redirect('login')}
+
+})
 app.get('/enroll_spe', (req, res) =>{if(sa.status==true){res.render('enroll_spe', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+app.get('/forgotpassword', (req, res) =>{{res.render('forgotpassword', {})}})
 
 function checkAuthenticated(res, next){
   console.log('this is sa : '+sa.status);
@@ -53,7 +146,7 @@ function sleep(ms) {
 }
 
 app.post('/api', async (req, res)=>{
-
+  
   const ques = req.query;
   const getData = await loginAuthen(req.body.user, req.body.pwd);
 
@@ -92,6 +185,19 @@ app.get('/logout', async(req, res)=>{
 });
 
 app.get("/main", async function(req, res){
+  if(sa.status==true){
+    var nameid = stdData.username;
+    const data = await getStudentInfo(nameid);
+    if (data) {
+      let j = JSON.parse(data);
+      res.render("main",{stdID: stdData.username ,prefix: 'คุณ', name_th: j.data.displayname_th, tu_status: stdData.tu_status});
+    }
+  }else{
+    res.redirect('login')
+  }
+});
+
+app.post("/main", async function(req, res){
   if(sa.status==true){
     var nameid = stdData.username;
     const data = await getStudentInfo(nameid);
@@ -161,28 +267,108 @@ app.get("/profiles", async function(req, res){
   
 });
 
+/*app.get('/:id', (req, res)=>{
+
+})*/
+
 app.get("/reqStatus", async function(req, res){
-  if(sa.status==false){
-    return res.redirect('login');
-  }else{
-    var nameid = stdData.username;
-    const data = await getStudentInfo(nameid);
-    if (data) {
-      let j = JSON.parse(data);
-      res.render("status", 
-      {prefix: 'คุณ',
+  
+  /*const forms = [{
+    title: 'Test Forms',
+    createdAt: new Date(),
+    description: 'Test description'
+  },{
+    title: 'Test Forms 2',
+    createdAt: new Date(),
+    description: 'Test description 2'
+  }]
+
+  res.render('status', {forms: forms, stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th,})*/
+
+  const forms = await Forms.find().sort({ createdAt: 'desc'})
+  /*console.log(forms)*/
+  res.render('status', { forms: forms,
+    stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th,
+  })
+
+  /*let forms = new Forms({
+    title: req.body.title,
+    description : req.body.description,
+    markdown: req.body.markdown
+  })
+
+  try{
+    await forms.save();
+    res.render("status", {forms: forms,
+      stdID: stdData.username,
+      prefix: 'คุณ',
       tu_status: stdData.tu_status,
-       username: stdData.username,
-       name_th: j.data.displayname_th,
-       name_en: j.data.displayname_en,
-       email: j.data.email,
-       faculty: j.data.faculty,
-       department: j.data.department
-       });
-    }
-}
+      username: stdData.username,
+      name_th: stdData.displayname_th,
+      name_en: stdData.displayname_en,
+      email: stdData.email,
+      faculty: stdData.faculty,
+      department: stdData.department
+      });
+  }catch(e){
+    res.render('status', { forms: new Forms(),
+    stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th,
+    name_en: stdData.displayname_en,
+    email: stdData.email,
+    faculty: stdData.faculty,
+    department: stdData.department})
+  }*/
   
 });
+
+/*app.post("/reqStatus", async function(req, res){
+  console.log(req.body)
+  let forms = new Forms({
+    title: req.body.title,
+    description : req.body.description,
+    markdown: req.body.markdown
+  })
+
+  try{
+    forms = await forms.save();
+    res.render("status", {forms: forms,
+      stdID: stdData.username,
+      prefix: 'คุณ',
+      tu_status: stdData.tu_status,
+      username: stdData.username,
+      name_th: stdData.displayname_th,
+      name_en: stdData.displayname_en,
+      email: stdData.email,
+      faculty: stdData.faculty,
+      department: stdData.department
+      });
+  }catch(e){
+    console.log(e)
+    res.render('status', { forms: new Forms(),
+    stdID: stdData.username,
+    prefix: 'คุณ',
+    tu_status: stdData.tu_status,
+    username: stdData.username,
+    name_th: stdData.displayname_th,
+    name_en: stdData.displayname_en,
+    email: stdData.email,
+    faculty: stdData.faculty,
+    department: stdData.department})
+  }
+  
+});*/
 
 const getStudentInfo = (username) => {
     return new Promise((resolve, reject) => {
@@ -258,3 +444,6 @@ const loginAuthen = (user, password)=>{
     });
     
 };
+
+var PORT  = process.env.PORT || 5000;
+app.listen(PORT, function () { console.log(`Listening on ${PORT}`) });

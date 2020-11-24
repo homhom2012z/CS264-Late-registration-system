@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     
+    
     <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/forms.css" type="text/css">
 
     <!-- SWAL-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -258,7 +260,27 @@
             <h4>สถานะคำร้อง</h4>
           </div>
           <div class='panel-body'>
-            
+
+            <div class="container">
+              <h1 class="mb-4">Blog Forms</h1>
+              <a href="#" class="btn btn-success">New Forms</a>
+
+              <% forms.forEach(forms => { %>
+                <div class="card mt-4">
+                  <div class="card-body">
+                    <h4 class="card-title"><%= forms.title %></h4>
+                    <div class="card-subtitle text-muted mb-2">
+                      <%= forms.createdAt.toLocaleDateString('en-EN') %>
+                    </div>
+                    <a href="/show_forms/<%= forms.id %>" class="btn btn-primary">ดูแบบฟอร์ม</a>
+                    <a href="/show_forms/<%= forms.id %>" class="btn btn-primary">show_forms + ID</a>
+                    <a href="/forms/<%= forms.id %>" class="btn btn-info">Edit</a>
+                  </div>
+                </div>
+              <% }) %>
+
+            </div>
+
           </div>
         </div>
 
