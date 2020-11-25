@@ -14,7 +14,7 @@ const mongoose = require('mongoose')
 /*const marked = require('marked')
 const slugify = require('slugify')*/
 
-mongoose.connect('mongodb+srv://cs264:Homhom123@server1.xm68v.mongodb.net/test', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://cs264:Homhom123@server1.xm68v.mongodb.net/test', {
   useNewUrlParser: true, useUnifiedTopology: true, /*useCreateIndex:true,*/
 })
 
