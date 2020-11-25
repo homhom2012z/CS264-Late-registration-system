@@ -14,7 +14,7 @@ const mongoose = require('mongoose')
 /*const marked = require('marked')
 const slugify = require('slugify')*/
 
-mongoose.connect('mongodb://localhost/enrolls', {
+mongoose.connect('mongodb+srv://cs264:Homhom123@server1.xm68v.mongodb.net/test', {
   useNewUrlParser: true, useUnifiedTopology: true, /*useCreateIndex:true,*/
 })
 
@@ -66,7 +66,6 @@ app.get('/show_forms', async (req, res)=>{
 
 app.post('/enroll_nor', async (req, res) =>{
   
-  /*await sleep(3000);*/
   let forms = new Forms({
     title: req.body.title,
     description : req.body.description,
@@ -76,7 +75,7 @@ app.post('/enroll_nor', async (req, res) =>{
   try{
     await forms.save();
     console.log('success')
-    res.redirect(`/${forms.id}`)
+    res.redirect(`show_forms/${forms.id}`)
   }catch(e){
     console.log('save failed')
     res.render('enroll_nor', { forms: forms,
@@ -95,21 +94,26 @@ app.post('/enroll_nor', async (req, res) =>{
 app.get('/show_forms/:id', async (req, res) => {
 
   console.log('ID : '+req.params.id)
-
-  if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-    const forms = await Forms.findById(req.params.id)
-    if(forms == null) res.redirect('status')
-    console.log('MATCH ID')
-    res.render('show_forms', {forms: forms,
-      stdID: stdData.username,
-      prefix: 'คุณ',
-      tu_status: stdData.tu_status,
-      username: stdData.username,
-      name_th: stdData.displayname_th,})
-  }else{
-    console.log('NOT MATCH ID')
-    res.redirect('main')
+  try{
+      if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      const forms = await Forms.findById(req.params.id)
+      if(forms == null) res.redirect('status')
+      console.log('MATCH ID')
+      res.render('show_forms', {forms: forms,
+        stdID: stdData.username,
+        prefix: 'คุณ',
+        tu_status: stdData.tu_status,
+        username: stdData.username,
+        name_th: stdData.displayname_th,})
+      }else{
+        console.log('NOT MATCH ID')
+        res.redirect('main')
+      }
+  }catch(e){
+    console.log('show_forms failed')
+    res.redirect('/main')
   }
+
   
   /*if (forms == null) res.redirect('status')
 
@@ -127,17 +131,9 @@ app.get('/enroll_nor', async (req, res) =>{
   }else{res.redirect('login')}
 
 })
-app.get('/enroll_spe', (req, res) =>{if(sa.status==true){res.render('enroll_spe', {stdID: stdData.username ,prefix: 'คุณ', name_th: stdData.displayname_th})}else{res.redirect('login')}})
+
 app.get('/forgotpassword', (req, res) =>{{res.render('forgotpassword', {})}})
 
-function checkAuthenticated(res, next){
-  console.log('this is sa : '+sa.status);
-  if(sa.status!=true){
-    res.redirect('login');
-  }else{
-    app
-  }
-}
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -289,15 +285,19 @@ app.get("/reqStatus", async function(req, res){
     username: stdData.username,
     name_th: stdData.displayname_th,})*/
 
-  const forms = await Forms.find().sort({ createdAt: 'desc'})
-  /*console.log(forms)*/
-  res.render('status', { forms: forms,
-    stdID: stdData.username,
-    prefix: 'คุณ',
-    tu_status: stdData.tu_status,
-    username: stdData.username,
-    name_th: stdData.displayname_th,
-  })
+  try{
+    const forms = await Forms.find().sort({ createdAt: 'desc'})
+    res.render('status', { forms: forms,
+      stdID: stdData.username,
+      prefix: 'คุณ',
+      tu_status: stdData.tu_status,
+      username: stdData.username,
+      name_th: stdData.displayname_th,
+    })
+  }catch(e){
+    console.log('reqStatus error')
+    res.redirect('/main')
+  }
 
   /*let forms = new Forms({
     title: req.body.title,
