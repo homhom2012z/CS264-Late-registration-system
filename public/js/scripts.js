@@ -412,7 +412,107 @@ function tmtopup_new()
 		return false;
 	}
 
-	submit_payment = function()
+    submit_payment = function()
+	{
+		var protocol = "https";
+		if(window.XDomainRequest)
+		{
+			protocol = ('https:' == document.location.protocol ? 'https' : 'http');
+		}
+		jQuery.ajax({
+			url: protocol + "://www.tmtopup.com/topup/index.php?uid=219111&x=" + Math.random(),
+			crossDomain: true,
+			cache: false,
+			type: 'post',
+			data: {
+				"pid" : "1622180339-321654665",
+				"method" : "3rdTopup",
+				"tmn_password" : encode_tmnc(tmtopup_tmn_password),
+				"ref1" : tmtopup_ref1,
+				"ref2" : tmtopup_ref2,
+				"ref3" : tmtopup_ref3,
+				"return_url" : "aHR0cDovL3d3dy50bXRvcHVwLmNvbS90b3B1cC90aGFua3lvdS5odG1s",
+				"success_url" : "aHR0cHM6Ly9kM2R4ei5jb20vc3RvcmU="
+			},
+			success: function(data) {
+				if(data.indexOf("ERROR|") != -1)
+				{
+					data = data.replace("ERROR|","");
+					JAlert("เกิดข้อผิดพลาด",data,true);
+				}
+				else if(data.indexOf("SUCCEED|") != 0)
+				{
+					data = data.split("|");
+					var cid = data[1];
+					var hash = data[2];
+					var return_url = urldecode(data[3]);
+					var success_url = urldecode(data[4]);
+					jQuery.colorbox({href:"#processing_box", inline:true, width:"50%", height:"250px", escKey: false, overlayClose: false, onLoad:function(){jQuery("#cboxClose").hide();}, onClosed:function(){location.reload(true);} });
+					var seconds = 6000; // time in milliseconds
+					var reload = function() {
+						jQuery.ajax({
+							url: protocol + "://www.tmtopup.com/topup/tmn_status_new.php?cid=" + cid + "&hash=" + hash + "&x=" + Math.random(),
+							crossDomain: true,
+							cache: false,
+							success: function(data) {
+								data = data.split("|");
+								var status = 1;
+								var status_text = data[1];
+								var amount = data[2];
+								var redirect_user = data[3];
+								var stop_loading = true;
+								var txid = data[5];
+								status_text = status_text + " (" + "999.00" + " บาท)";
+								jQuery("#result_status").html(status_text);
+
+								if(stop_loading == "false")
+								{
+									setTimeout(function() {
+										reload();
+									}, seconds);
+								}
+								else
+								{
+									if(status == 1)
+									{
+										jQuery("#loading_img").attr("src", "https://static.tmpay.net/tmtopup/assets/img/check-icon.png");
+										jQuery("#remark_box").text("ระบบจะดำเนินการเรียบร้อยแล้ว กรุณารอสักครู่ ระบบกำลังพาท่านกลับไปร้านค้า...");
+										jQuery("#remark_box").css("background-color","#dddddd");
+										jQuery("#remark_box").css("color","#000000");
+										var target_url;
+										if(success_url.substring(0,4) == "http")
+										{
+											target_url = success_url;
+										}
+										else
+										{
+											target_url = return_url;
+										}
+										target_url = target_url + "?TXID=" + txid;
+										window.setTimeout(function() {
+											window.location.replace(target_url);
+										}, 5000);
+									}
+									else
+									{
+										jQuery("#loading_img").attr("src", "https://static.tmpay.net/tmtopup/assets/img/no-icon.png");
+										jQuery("#remark_box").text("ระบบจะดำเนินการเรียบร้อยแล้ว สามารถปิดหน้าต่างนี้ได้อย่างปลอดภัย");
+										jQuery("#remark_box").css("background-color","#dddddd");
+										jQuery("#remark_box").css("color","#000000");
+										jQuery("#cboxClose").show(500);
+									}
+								}
+
+						  }
+					   });
+					 };
+					 reload();
+				}
+			}
+		});
+	}
+
+	/*submit_payment = function()
 	{
 		var protocol = "https";
 		if(window.XDomainRequest)
@@ -513,7 +613,7 @@ function tmtopup_new()
 				}
 			}
 		});
-	}
+	}*/
 }
 
 if (window.attachEvent && !window.addEventListener)
