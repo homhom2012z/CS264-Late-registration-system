@@ -412,7 +412,7 @@ function tmtopup_new()
 		return false;
 	}
 
-    submit_payment = function()
+    /*submit_payment = function()
 	{
 		var protocol = "https";
 		if(window.XDomainRequest)
@@ -460,7 +460,7 @@ function tmtopup_new()
 								var status_text = data[1];
 								var amount = data[2];
 								var redirect_user = data[3];
-								var stop_loading = true;
+								var stop_loading = "true";
 								var txid = data[5];
 								status_text = status_text + " (" + "999.00" + " บาท)";
 								jQuery("#result_status").html(status_text);
@@ -510,7 +510,7 @@ function tmtopup_new()
 				}
 			}
 		});
-	}
+	}*/
 
 	/*submit_payment = function()
 	{
