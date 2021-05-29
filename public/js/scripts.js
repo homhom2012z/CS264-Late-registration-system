@@ -412,7 +412,7 @@ function tmtopup_new()
 		return false;
 	}
 
-    /*submit_payment = function()
+    submit_payment = function()
 	{
 		var protocol = "https";
 		if(window.XDomainRequest)
@@ -420,7 +420,7 @@ function tmtopup_new()
 			protocol = ('https:' == document.location.protocol ? 'https' : 'http');
 		}
 		jQuery.ajax({
-			url: protocol + "://www.tmtopup.com/topup/index.php?uid=219111&x=" + Math.random(),
+			url: protocol + "://www.tmtopup.com/topup/index.php?uid=219111&x=",
 			crossDomain: true,
 			cache: false,
 			type: 'post',
@@ -451,7 +451,7 @@ function tmtopup_new()
 					var seconds = 6000; // time in milliseconds
 					var reload = function() {
 						jQuery.ajax({
-							url: protocol + "://www.tmtopup.com/topup/tmn_status_new.php?cid=" + cid + "&hash=" + hash + "&x=" + Math.random(),
+							url: protocol + "://www.tmtopup.com/topup/tmn_status_new.php?cid=" + cid + "&hash=" + hash,
 							crossDomain: true,
 							cache: false,
 							success: function(data) {
@@ -510,7 +510,7 @@ function tmtopup_new()
 				}
 			}
 		});
-	}*/
+	}
 
 	/*submit_payment = function()
 	{
