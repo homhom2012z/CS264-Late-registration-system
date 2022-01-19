@@ -75,9 +75,10 @@ app.post('/enroll_nor', async (req, res) =>{
   try{
     await forms.save();
     console.log('success')
-    res.redirect(`show_forms/${forms.id}`)
+    res.redirect(`#`)
   }catch(e){
     console.log('save failed')
+    console.log(e.toString())
     res.render('enroll_nor', { forms: forms,
     stdID: stdData.username,
     prefix: 'คุณ',
@@ -91,12 +92,14 @@ app.post('/enroll_nor', async (req, res) =>{
   }
 })
 
-app.get('/show_forms/:id', async (req, res) => {
+app.post('/show_forms', async (req, res) => {
 
-  console.log('ID : '+req.params.id)
+  const req_id = req.body.forms_view_id;
+  console.log('ID : '+req_id)
+
   try{
-      if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-      const forms = await Forms.findById(req.params.id)
+      if (req_id.match(/^[0-9a-fA-F]{24}$/)) {
+      const forms = await Forms.findById(req_id)
       if(forms == null) res.redirect('status')
       console.log('MATCH ID')
       res.render('show_forms', {forms: forms,
@@ -104,7 +107,8 @@ app.get('/show_forms/:id', async (req, res) => {
         prefix: 'คุณ',
         tu_status: stdData.tu_status,
         username: stdData.username,
-        name_th: stdData.displayname_th,})
+        name_th: stdData.displayname_th,
+        ref: req_id})
       }else{
         console.log('NOT MATCH ID')
         res.redirect('main')
@@ -113,7 +117,6 @@ app.get('/show_forms/:id', async (req, res) => {
     console.log('show_forms failed')
     res.redirect('/main')
   }
-
   
   /*if (forms == null) res.redirect('status')
 
